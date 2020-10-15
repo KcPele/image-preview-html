@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .image-preview {
+            width: 300px;
+            min-height: 100px;
+            border: 2px solid #dddddd;
+            margin-top: 15px;
+            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #cccccc;
+        }
+        .image-preview__image {
+            display: none;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1> Image Preview on file Upload</h1>
+    <input type="file" name="inpFile" id="inpFile">
+   
+<div class="image-preview" id="imagePreview">
+    <img src="" alt="image Preview" class="image-preview__image">
+    <span class="image-preview__default-text">Image Preview</span>
+</div>
+
+<script>
+    //just an inline javascript
+    const inpFile = document.getElementById("inpFile")
+    const previewContainer = document.getElementById("imagePreview")
+    const previewImage = previewContainer.querySelector(".image-preview__image")
+    const previewDefaultText = previewContainer.querySelector(".image-preview__default-text")
+    const inpFile2 = document.getElementById("value")
+
+//listing for a change on the input file
+inpFile.addEventListener("change", () => {
+    const file = inpFile.files[0]
+   if(file){
+       const reader = new FileReader()
+
+       //changing back the image to be visible while the span text to be invisibe
+       previewDefaultText.style.display = "none"
+       previewImage.style.display = "block"
+
+       //reader contents all the data about the image eg its base string
+       reader.addEventListener("load", () => {
+
+           //reader.result is the main data about the hole image
+           console.log(reader.result)
+
+           //i am setting the src attribute to have that of the image 
+           previewImage.setAttribute("src", reader.result)
+          
+       })
+
+       //you have to read the file as a dataurl else it wont work
+       reader.readAsDataURL(file);
+   } else {
+
+       //this is just setting back the display back to normall ust in case an image was not selected
+    previewDefaultText.style.display = null;
+       previewImage.style.display = null;
+
+       //the image attribute will be empty to avoid any errors
+       previewImage.setAttribute("src", "")
+      
+   }
+})
+
+
+</script>
+
+</body>
+</html>
